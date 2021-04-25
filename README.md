@@ -150,7 +150,7 @@ Git 提供了 git config 工具专门配置或读取相应的工作环境变量�
 
 -   远程仓库
 
-    远程服务器，一般为[github](https://github.com)、[gitlab](https://gitlab.com)或[gitee](https://gitee.com)
+    远程服务器，一般为[github](https://github.com)、[gitlab](https://gitlab.com)或[gitee](https://gitee.com)等平台。
 
 -   工作区
 
@@ -238,19 +238,105 @@ Git 提供了 git config 工具专门配置或读取相应的工作环境变量�
 
 ### 4.2 图解分支操作
 
+#### 4.2.1 分支管理
+
+Git 把每次提交串成一条时间线，就是一个分支。开始时默认只有 master 一条分支，指向最新提交，再用 HEAD 指针 指向 master，以确定当前分支和当前提交点。每次提交时，当前分支都会向前移动一个新的版本。
+
+![git-master](resources/git主分支.png)
+
+如果再创建一个新分支 dev，Git 新建指针 dev，再把 HEAD 指向 dev，则表示当前提升指向新的分支，dev 分支会随着时间的推移形成许多新版本。
+
+![git-branch](resources/git新建分支.png)
+
+当分支 dev 完成开发后，提交至仓库，合并到 master 分支，删除 dev 分支，则完成了一次开发。Git 的合并是直接把 master 指向 dev 的当前提交，删除 dev 分支就是删除 dev 指针。
+
+![git-merge](resources/git分支合并.png)
+
+#### 4.2.2 创建分支
+
+新建分支命令为：
+
+> git branch \<branch-name\>
+
+新建分支的实质就是新建一个引用，指向当前提交。
+
+#### 4.2.3 查看分支
+
+查看分支命令：
+
+> git branch
+
+分支前带`*`即表示为当前分支。
+
+#### 4.2.4 切换分支
+
+切换分支命令：
+
+> git checkout \<branch-name\>
+
+切换分支的实质，就是将 HEAD 由原来的引用指向新分支的引用上。
+
+新建并切换分支命令：
+
+> git checkout -b \<branch-name\>
+
+命令`git checkout --<file>`为撤销操作，容易混淆，可以使用`switch`命令。
+
+切换至已有分支命令：
+
+> git switch \<branch-name\>
+
+新建并切换到新分支：
+
+> git switch -c \<branch-name\>
+
+#### 4.2.5 合并分支
+
+合并指定分支到当前分支命令：
+
+> git merge \<branch-name>
+
+例如，当前分支为 master，执行
+
+> git merge dev
+
+表示合并 dev 分支到当前 master 分支。
+
+#### 4.2.6 删除分支
+
+删除已有分支命令：
+
+> git branch -d \<branch-name\>
+
+强制删除命令：
+
+> git branch -D \<branch-name\>
+
+#### 4.2.7 冲突合并
+
+当两条分支同时修改相同的文件并提交后，分支合并也失败，此时 Git 无法判断要保存哪个修改，出现冲突，必须手动解决。
+
 ## 0. Git 命令
 
-| 命令         | 说明                     | 备注                  |
-| ------------ | ------------------------ | --------------------- |
-| git init     | 初始化仓库               |
-| git clone    | 克隆项目                 | github, gitlab, gitee |
-| git add      | 添加文件至暂存区         | .表示全部文件         |
-| git commit   | 添加文件至本地仓库       | -m 后添加提交信息     |
-| git push     | 文件推向远程仓库         |
-| git pull     | 拉取远程仓库代码         |
-| git reset    | 用本地仓库覆盖暂存区     |
-| git checkout | 复制暂存区文件至工作区   | HEAD 表示当前版本     |
-| git rm       | 删除工作区文件           |
-| git mv       | 移动或重命名工作区文件   |
-| git diff     | 比较暂存区与工作区的差异 |
-| git status   | 查看仓库的状态           |
+| 命令                            | 说明                     | 备注                  |
+| :------------------------------ | :----------------------- | :-------------------- |
+| git init                        | 初始化仓库               |
+| git clone                       | 克隆项目                 | github, gitlab, gitee |
+| git add                         | 添加文件至暂存区         | .表示全部文件         |
+| git commit                      | 添加文件至本地仓库       | -m 后添加提交信息     |
+| git push                        | 文件推向远程仓库         |
+| git pull                        | 拉取远程仓库代码         |
+| git reset --files               | 用本地仓库覆盖暂存区     |
+| git checkout --files            | 复制暂存区文件至工作区   | HEAD 表示当前版本     |
+| git rm                          | 删除工作区文件           |
+| git mv                          | 移动或重命名工作区文件   |
+| git diff                        | 比较暂存区与工作区的差异 |
+| git status                      | 查看仓库的状态           |
+| git branch                      | 查看分支                 |
+| git branch \<branch-name\>      | 创建分支                 |
+| git checkout \<branch-name\>    | 切换分支                 |
+| git switch \<branch-name\>      | 切换分支                 |
+| git checkout -b \<branch-name\> | 创建并切换分支           |
+| git switch -c \<branch-name\>   | 创建并切换分支           |
+| git merge \<branch-name\>       | 合并指定分支到当前分支   |
+| git branch -d \<branch-name\>   | 删除分支                 | -D 为强制删除         |
