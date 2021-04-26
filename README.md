@@ -71,7 +71,7 @@ git 是开源的分布式版本控制系统，由林纳斯·托瓦兹([Linus Ben
 
 > sudo dnf install dh-autoreconf curl-devel expat-devel gettext-devel \openssl-devel perl-devel zlib-devel
 
-> sudo apt-get install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev \gettext libz-dev libssl-dev
+> sudo apt install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev \gettext libz-dev libssl-dev
 
 ### 2.2 Windows 平台安装
 
@@ -85,9 +85,7 @@ Mac 平台上可直接使用[图形化安装工具](https://sourceforge.net/proj
 
 ### 2.4 Git 配置
 
-Git 提供了 git config 工具专门配置或读取相应的工作环境变量。
-
-这些环境变量决定 Git 在各个环节的具体工作方式和行为：
+Git 提供了 git config 工具专门配置或读取相应的工作环境变量，这些环境变量决定 Git 在各个环节的具体工作方式和行为：
 
 -   /etc/gitconfig: 系统中所有用户普遍适用的配置，使用 git config 时添加--system 选项，读写该文件。
 -   ~/.gitconfig: 用户目录下的配置文件只适用于该用户，使用 git config 时添加--global 选项，读写该文件。
@@ -316,27 +314,142 @@ Git 把每次提交串成一条时间线，就是一个分支。开始时默认�
 
 当两条分支同时修改相同的文件并提交后，分支合并也失败，此时 Git 无法判断要保存哪个修改，出现冲突，必须手动解决。
 
-## 0. Git 命令
+### 4.3 远程仓库
 
-| 命令                            | 说明                     | 备注                  |
-| :------------------------------ | :----------------------- | :-------------------- |
-| git init                        | 初始化仓库               |
-| git clone                       | 克隆项目                 | github, gitlab, gitee |
-| git add                         | 添加文件至暂存区         | .表示全部文件         |
-| git commit                      | 添加文件至本地仓库       | -m 后添加提交信息     |
-| git push                        | 文件推向远程仓库         |
-| git pull                        | 拉取远程仓库代码         |
-| git reset --files               | 用本地仓库覆盖暂存区     |
-| git checkout --files            | 复制暂存区文件至工作区   | HEAD 表示当前版本     |
-| git rm                          | 删除工作区文件           |
-| git mv                          | 移动或重命名工作区文件   |
-| git diff                        | 比较暂存区与工作区的差异 |
-| git status                      | 查看仓库的状态           |
-| git branch                      | 查看分支                 |
-| git branch \<branch-name\>      | 创建分支                 |
-| git checkout \<branch-name\>    | 切换分支                 |
-| git switch \<branch-name\>      | 切换分支                 |
-| git checkout -b \<branch-name\> | 创建并切换分支           |
-| git switch -c \<branch-name\>   | 创建并切换分支           |
-| git merge \<branch-name\>       | 合并指定分支到当前分支   |
-| git branch -d \<branch-name\>   | 删除分支                 | -D 为强制删除         |
+#### 4.3.1 添加远程仓库
+
+可以在 github 或 gitee 上创建仓库后通过`git pull`命令拉取至本地，也可以选择在本地创建 Git 仓库、在 github 创建仓库，并将两者远程同步。
+
+本地与远程仓库同步主要操作：
+
+1. 在 github 或 gitee 上新建仓库
+
+    ![github新建仓库](resources/github新建仓库.png)
+
+    Repository name 填入所建仓库名，Description 输入仓库描述信息，就成为创建一个 Git 仓库。
+
+2. 关联本地仓库与远程仓库
+
+    在本地仓库内运行命令：
+
+    > git remote add origin git@github.com:username/git-repository-name.git
+
+    **Tips**: 将`username`换成自己的用户名，将 git-repository-name 换成所建仓库的名字。
+
+    添加后远程仓库的名字就是`origin`。
+
+3. 推送本地仓库内容到远程
+
+    把本地库的所有内容推送到远程库，执行命令：
+
+    > git push -u origin master
+
+    推送成功后，可以看到 github 页面与本地库内容相同。此后，本地仓库内容发生变化，可通过命令：
+
+    > git push origin master
+
+    将修改推送到 github。
+
+#### 4.3.2 查看远程仓库
+
+查看远程库信息：
+
+> git remote -v
+
+#### 4.3.3 删除远程仓库
+
+根据名字删除：
+
+> git remote rm origin
+
+此处的删除是解除子本地和远程的绑定关系，并非删除远程仓库服务器上的内容，若要物理删除，须登录到 github 页面进行删除。
+
+### 4.4 Git 日志
+
+#### 4.4.1 查看历史提交记录
+
+查看历史提交记录命令：
+
+> git log
+
+查看简洁历史记录：
+
+> git log --online
+
+#### 4.4.2 查看指定文件历史修改记录
+
+查看指定文件修改记录：
+
+> git blame \<file\>
+
+### 4.5 Git 标签
+
+标签也是版本库的一个快照，通常在某一时间某一版本打上标签。
+
+#### 4.5.1 新建标签
+
+新建标签命令：
+
+> git tag \<tag-name\>
+
+#### 4.5.2 查看标签
+
+查看所有标签命令：
+
+> git tag
+
+查看某个特定标签：
+
+> git show \<tag-name\>
+
+#### 4.5.3 删除标签
+
+删除标签命令：
+
+> git tag -d \<tag-name\>
+
+#### 4.5.4 推送标签至远程
+
+推送指定标签命令：
+
+> git push origin \<tag-name\>
+
+推送所有标签命令：
+
+> git push origin --tags
+
+## 5. Git 命令常用表
+
+| 类别     | 命令                            | 说明                     | 备注                    |
+| :------- | :------------------------------ | :----------------------- | :---------------------- |
+| 基础操作 | git init                        | 初始化仓库               |                         |
+|          | git clone                       | 克隆项目                 | github, gitlab, gitee   |
+|          | git add                         | 添加文件至暂存区         | `.`表示全部文件         |
+|          | git commit                      | 添加文件至本地仓库       | -m 后添加提交信息       |
+|          | git push                        | 文件推向远程仓库         |
+|          | git pull                        | 拉取远程仓库代码         |
+|          | git reset --files               | 用本地仓库覆盖暂存区     |
+|          | git checkout --files            | 复制暂存区文件至工作区   | HEAD 表示当前版本       |
+|          | git rm                          | 删除工作区文件           |
+|          | git mv                          | 移动或重命名工作区文件   |
+|          | git diff                        | 比较暂存区与工作区的差异 |
+|          | git status                      | 查看仓库的状态           |
+| 分支操作 | git branch                      | 查看分支                 |
+|          | git branch \<branch-name\>      | 创建分支                 |
+|          | git checkout \<branch-name\>    | 切换分支                 |
+|          | git switch \<branch-name\>      | 切换分支                 |
+|          | git checkout -b \<branch-name\> | 创建并切换分支           |
+|          | git switch -c \<branch-name\>   | 创建并切换分支           |
+|          | git merge \<branch-name\>       | 合并指定分支到当前分支   |
+|          | git branch -d \<branch-name\>   | 删除分支                 | -D 为强制删除           |
+| 远程操作 | git remote add origin           | 关联本地与远程仓库       |
+|          | git remote -v                   | 查看远程仓库信息         |
+|          | git remote rm origin            | 删除远程仓库             |
+| 日志操作 | git log                         | 查看历史提交记录         | --online 参数为简洁记录 |
+|          | git blame                       | 查看指定文件修改记录     |
+| 标签操作 | git tag \<tag-name\>            | 新建标签                 |
+|          | git tag                         | 查看所有标签             |
+|          | git show \<tag-name\>           | 查看某个特定标签         |
+|          | git tag -d \<tag-name\>         | 删除标签                 |
+|          | git push origin \<tag-name\>    | 推送指定标签             |
+|          | git push origin --tags          | 推送所有标签             |                         |
