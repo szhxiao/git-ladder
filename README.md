@@ -2,7 +2,7 @@
 
 ## 1. 什么是 Git
 
-git 是开源的分布式版本控制系统，由林纳斯·托瓦兹([Linus Benedict Torvalds](https://baike.baidu.com/item/%E6%9E%97%E7%BA%B3%E6%96%AF%C2%B7%E6%9C%AC%E7%BA%B3%E7%AC%AC%E5%85%8B%E7%89%B9%C2%B7%E6%89%98%E7%93%A6%E5%85%B9/1034429?fromtitle=Linus%20Torvalds&fromid=9336769))创作,最初用来管理 Linux 内核版本，现在广泛用于种类软件工程版本控制。
+git 是开源的分布式版本控制系统，由林纳斯·托瓦兹([Linus Benedict Torvalds](https://baike.baidu.com/item/%E6%9E%97%E7%BA%B3%E6%96%AF%C2%B7%E6%9C%AC%E7%BA%B3%E7%AC%AC%E5%85%8B%E7%89%B9%C2%B7%E6%89%98%E7%93%A6%E5%85%B9/1034429?fromtitle=Linus%20Torvalds&fromid=9336769))创作,最初用来管理 Linux 内核版本，现在广泛用于各类软件工程版本控制。
 
 ### 1.1 什么是版本控制系统
 
